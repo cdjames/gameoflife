@@ -13,8 +13,11 @@ int main()
 	Oscillator myOsc;
 	// Oscillator myOsc2(1, 2);
 
-	myOsc.drawCells();
-	myOsc.countNeighbors();
+	for (int i = 0; i < 3; i++)
+	{
+		myOsc.drawCells();
+	}
+	// myOsc.countNeighbors();
 	// myOsc2.drawCells();
 
 }

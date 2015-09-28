@@ -27,6 +27,20 @@ void Oscillator::initialState()
 				currentCell[i][x] = 1;
 			else
 				currentCell[i][x] = 0;
+
+			newCell[i][x] = 0;
+		}
+	}
+}
+
+void Oscillator::newState() 
+{
+	// int size = currentCell.size();
+	for (int i = 0; i < SIZE; i++)
+	{
+		for (int x = 0; x < SIZE; x++)
+		{
+			newCell[i][x] = 0;
 		}
 	}
 }
@@ -45,7 +59,7 @@ void Oscillator::countNeighbors()
 			int count = 0;
 
 			if(i < SIZE-1) { // count when i is 0 or 1
-				if( x < SIZE-1)
+				if( x < SIZE-1) // count when x is 0 or 1
 					count += currentCell[i+1][x+1];
 
 				if (x > 0) // count when x is 1 or 2
@@ -73,6 +87,13 @@ void Oscillator::countNeighbors()
 			
 			std::cout << "i" << i << " x" << x << " count = " << count << std::endl;
 
+			/* now copy into new cell */
+			if (count <= 1 || count > 3)
+				newCell[i][x] = 0; // kill cell
+			else if (count == 3)
+				newCell[i][x] = 1; // birth new cell
+			else
+				newCell[i][x] = currentCell[i][x];
 		}	
 	}
 }
@@ -86,5 +107,20 @@ bool Oscillator::drawCells()
 			std::cout << currentCell[i][x] << std::endl;
 		}
 	}
+	countNeighbors();
+
+	updateCycle();
 }
-void Oscillator::updateCycle() {}
+
+void Oscillator::updateCycle() 
+{
+	for (int i = 0; i < SIZE; i++)
+	{
+		for (int x = 0; x < SIZE; x++)
+		{
+			currentCell[i][x] = newCell[i][x];
+		}
+	}
+			
+	newState();
+}

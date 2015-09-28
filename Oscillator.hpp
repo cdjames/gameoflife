@@ -13,16 +13,16 @@ private:
 	int currentCell[3][3];
 	int newCell[3][3];
 
+	void initialState();
+	void newState();
 	int getState();
-	
+	void updateCycle();
+	void countNeighbors();
 
 public:
 	Oscillator();
 	Oscillator(int x, int y);
-	void initialState();
-	void countNeighbors();
 	bool drawCells();
-	void updateCycle();
 };
 
 #endif
