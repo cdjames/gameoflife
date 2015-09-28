@@ -1,6 +1,7 @@
 #ifndef OSCILLATOR_HPP
 #define OSCILLATOR_HPP
 
+#include <curses.h>
 class Oscillator
 {
 private:
@@ -18,6 +19,8 @@ private:
 	int getState();
 	void updateCycle();
 	void countNeighbors();
+
+	WINDOW * win;
 
 public:
 	Oscillator();

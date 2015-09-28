@@ -1,11 +1,13 @@
 #include "Oscillator.hpp"
 #include <iostream>
+#include <curses.h>
 
 Oscillator::Oscillator()
 {
 	rowSize = colSize = SIZE;
 	startX = startY = 0;
 	initialState();
+    win = newwin(20, 40, 5, 0);
 }
 
 Oscillator::Oscillator(int x, int y)
@@ -14,6 +16,13 @@ Oscillator::Oscillator(int x, int y)
 	startX = x;
 	startY = y;
 	initialState();
+	
+	initscr();			/* Start curses mode 		  */
+	win = newwin(20, 40, y, x);
+	timeout(500); // wait for user input then go to next call
+	noecho(); // don't print user input
+	printw("Press 'q' to quit.");	/* Print Hello World		  */
+	refresh();			/* Print it on to the real screen */
 }
 
 void Oscillator::initialState() 
@@ -85,7 +94,7 @@ void Oscillator::countNeighbors()
 			if (x > 0) // and x is 1 or 2
 				count += currentCell[i][x-1];
 			
-			std::cout << "i" << i << " x" << x << " count = " << count << std::endl;
+			// std::cout << "i" << i << " x" << x << " count = " << count << std::endl;
 
 			/* now copy into new cell */
 			if (count <= 1 || count > 3)
@@ -100,11 +109,19 @@ void Oscillator::countNeighbors()
 
 bool Oscillator::drawCells() 
 {
+	// initscr();
+	char ch;
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int x = 0; x < SIZE; x++)
 		{
-			std::cout << currentCell[i][x] << std::endl;
+			if(currentCell[i][x] == 0)
+				ch = '-';
+			else
+				ch = '+';
+			mvwaddch(win, i, x, ch);
+			wrefresh(win);
+			// std::cout << currentCell[i][x] << std::endl;
 		}
 	}
 	countNeighbors();

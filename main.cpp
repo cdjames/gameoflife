@@ -7,17 +7,27 @@
 #include <iostream>
 #include <iomanip>
 #include "Oscillator.hpp"
+#include <curses.h>
+#include <stdlib.h>
 
 int main()
 {
-	Oscillator myOsc;
-	// Oscillator myOsc2(1, 2);
+	char ch;
 
-	for (int i = 0; i < 3; i++)
+	// initscr();			/* Start curses mode 		  */
+	// timeout(500); // wait for user input then go to next call
+	// noecho(); // don't print user input
+	// printw("Press 'q' to quit.");	/* Print Hello World		  */
+	// refresh();			/* Print it on to the real screen */
+
+	Oscillator myOsc(10, 10); // starts drawing
+	
+	do
 	{
 		myOsc.drawCells();
-	}
-	// myOsc.countNeighbors();
-	// myOsc2.drawCells();
+	} while ((ch = getch()) != 'q');
 
+	endwin();			/* End curses mode		  */
+
+	return 0;
 }
