@@ -13,18 +13,19 @@ private:
 	int colSize;
 	int currentCell[3][3];
 	int newCell[3][3];
+	WINDOW * win;
 
-	void initialState();
-	void newState();
+	void initArrays();
+	void clearNewArray();
 	int getState();
 	void updateCycle();
 	void countNeighbors();
-
-	WINDOW * win;
+	void initWindow(int y, int x);
 
 public:
 	Oscillator();
 	Oscillator(int x, int y);
+	~Oscillator();
 	bool drawCells();
 };
 
