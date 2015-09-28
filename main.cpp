@@ -11,9 +11,10 @@
 int main()
 {
 	Oscillator myOsc;
-	Oscillator myOsc2(1, 2);
+	// Oscillator myOsc2(1, 2);
 
 	myOsc.drawCells();
-	myOsc2.drawCells();
+	myOsc.countNeighbors();
+	// myOsc2.drawCells();
 
 }

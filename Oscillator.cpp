@@ -31,18 +31,50 @@ void Oscillator::initialState()
 	}
 }
 
+int Oscillator::getState()
+{
+
+}
+
 void Oscillator::countNeighbors() 
 {
-	// for (int i = 0; i < SIZE; i++)
-	// {
-	// 	for (int x = 0; x < SIZE; x++)
-	// 	{
-	// 		int count = 0;
+	for (int i = 0; i < SIZE; i++)
+	{
+		for (int x = 0; x < SIZE; x++)
+		{
+			int count = 0;
 
-	// 		if(x)
+			if(i < SIZE-1) { // count when i is 0 or 1
+				if( x < SIZE-1)
+					count += currentCell[i+1][x+1];
 
-	// 	}	
-	// }
+				if (x > 0) // count when x is 1 or 2
+					count += currentCell[i+1][x-1];
+				
+				count += currentCell[i+1][x]; // always count
+			}
+
+			if (i > 0) // count when i is 1 or 2
+			{
+				if( x < SIZE-1) // count when x is 0 or 1
+					count += currentCell[i-1][x+1];
+				if (x > 0) // count when x is 1 or 2
+					count += currentCell[i-1][x-1];
+
+				count += currentCell[i-1][x]; // always count
+			}
+
+			// count when i is 0, 1, and 2
+			if( x < SIZE-1) // and x is 0 or 1
+				count += currentCell[i][x+1];
+
+			if (x > 0) // and x is 1 or 2
+				count += currentCell[i][x-1];
+			
+			std::cout << "i" << i << " x" << x << " count = " << count << std::endl;
+
+		}	
+	}
 }
 
 bool Oscillator::drawCells() 
