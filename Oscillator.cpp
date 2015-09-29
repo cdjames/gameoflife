@@ -37,12 +37,15 @@ void Oscillator::initArrays()
 	{
 		for (int x = 0; x < SIZE; x++)
 		{
-			if (i == 1)
+			if (i == SIZE/2)
 				currentCell[i][x] = 1;
 			else
 				currentCell[i][x] = 0;
 
 			newCell[i][x] = 0;
+
+			// std::cout << "i = " << i << ", x = " << x << std::endl;
+			// std::cout << currentCell[i][x] << std::endl;
 		}
 	}
 }
@@ -124,6 +127,8 @@ void Oscillator::countNeighbors()
 				newCell[i][x] = currentCell[i][x];
 		}	
 	}
+
+	updateCycle(); // copy new cells into 1st generation; clear new array
 }
 
 bool Oscillator::drawCells() 
@@ -138,14 +143,14 @@ bool Oscillator::drawCells()
 				ch = '-';
 			else
 				ch = '+';
-			mvwaddch(win, i+startX, x+startY, ch);
-			wrefresh(win);
+			mvwaddch(win, i+startX, x+startY, ch); // put character on window		
+			// std::cout << "i = " << i << ", x = " << x << std::endl;
 			// std::cout << currentCell[i][x] << std::endl;
 		}
 	}
-	countNeighbors();
+	wrefresh(win); // update the window
 
-	updateCycle();
+	countNeighbors(); // figure out next generation
 }
 
 /*********************************************************************
@@ -182,5 +187,5 @@ void Oscillator::initWindow(int y, int x)
 			mvwaddch(win, i, x, '-');	// move and add a character to the coords
 		}
 	}
-	wrefresh(win);	// draw on the window
+	wrefresh(win);	// draw the window
 }

@@ -11,8 +11,8 @@ private:
 	int startY;
 	int rowSize;
 	int colSize;
-	int currentCell[3][3];
-	int newCell[3][3];
+	int currentCell[SIZE][SIZE];
+	int newCell[SIZE][SIZE];
 	WINDOW * win;
 
 	void initArrays();
