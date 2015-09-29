@@ -1,11 +1,11 @@
-#ifndef OSCILLATOR_HPP
-#define OSCILLATOR_HPP
+#ifndef GLIDER_HPP
+#define GLIDER_HPP
 
 #include <curses.h>
-class Oscillator
+class Glider
 {
 private:
-	static const int SIZE = 3;
+	static const int SIZE = 4;
 	// int SIZE;
 	int startX;
 	int startY;
@@ -23,9 +23,9 @@ private:
 	void initWindow(int y, int x);
 
 public:
-	Oscillator();
-	Oscillator(int x, int y);
-	~Oscillator();
+	Glider();
+	Glider(int x, int y);
+	~Glider();
 	bool drawCells();
 };
 
