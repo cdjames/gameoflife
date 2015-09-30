@@ -7,6 +7,7 @@
 #include <iostream>
 #include <iomanip>
 #include "Oscillator.hpp"
+#include "Glider.hpp"
 #include <curses.h>
 // #include <stdlib.h>
 void getUserPrefs(char &pref, int &x, int &y);
@@ -14,18 +15,19 @@ void getUserPrefs(char &pref, int &x, int &y);
 int main()
 {
 	char prefs, ch;
-	int x, y;
-	getUserPrefs(prefs, x, y);
+	int x=0, y=0;
+	// getUserPrefs(prefs, x, y);
 
-	Oscillator myOsc(x, y); // starts ncurses mode and draws box
+	// Oscillator myOsc(x, y); // starts ncurses mode and draws box
+	Glider myGlider(x, y);
 	
 	do
 	{
-		myOsc.drawCells(); // draws the cell
+		myGlider.drawCells(); // draws the cell
 	} while ((ch = getch()) != 'q'); // loop until the user enters 'q'
 	// for (int i = 0; i < 3; i++) // for testing
 		// myOsc.drawCells(); // draws the cell
-
+	// sleep(10);
 	return 0;
 }
 

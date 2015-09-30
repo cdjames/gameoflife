@@ -7,7 +7,7 @@
 OPS = -lncurses
 
 CXX = Oscillator.cpp
-# CXX += LoadedDie.cpp
+CXX += Glider.cpp
 CXX += main.cpp
 
 PROG1 = main

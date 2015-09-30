@@ -15,6 +15,8 @@ Glider::Glider(int y, int x)
 	rowSize = colSize = SIZE;
 	startX = x;
 	startY = y;
+	totalChanges = 0;
+	currentState = 1;
 	initArrays();
 	
 	initWindow(2, 0);
@@ -23,7 +25,7 @@ Glider::Glider(int y, int x)
 Glider::~Glider()
 {
 	delwin(win);	// delete the window
-	endwin();		/* End curses mode		  */
+	endwin();		// End curses mode
 }
 
 /*********************************************************************
@@ -37,15 +39,22 @@ void Glider::initArrays()
 	{
 		for (int x = 0; x < SIZE; x++)
 		{
-			if (i == SIZE/2)
+			if (   (i == 0 && x == 1) // build the spaceship
+				|| (i == 1 && x == 2)
+				|| (i == 2 && x == 0)
+				|| (i == 2 && x == 1)
+				|| (i == 2 && x == 2)
+				)
+			{
 				currentCell[i][x] = 1;
+			}
 			else
 				currentCell[i][x] = 0;
 
 			newCell[i][x] = 0;
 
-			// std::cout << "i = " << i << ", x = " << x << std::endl;
-			// std::cout << currentCell[i][x] << std::endl;
+			std::cout << "i = " << i << ", x = " << x << std::endl;
+			std::cout << currentCell[i][x] << std::endl;
 		}
 	}
 }
@@ -66,9 +75,16 @@ void Glider::clearNewArray()
 	}
 }
 
-int Glider::getState()
+void Glider::clearCurrentArray() 
 {
-
+	// int size = currentCell.size();
+	for (int i = 0; i < SIZE; i++)
+	{
+		for (int x = 0; x < SIZE; x++)
+		{
+			currentCell[i][x] = 0;
+		}
+	}
 }
 
 /*********************************************************************
@@ -159,14 +175,31 @@ bool Glider::drawCells()
 *********************************************************************/
 void Glider::updateCycle() 
 {
+	clearCurrentArray();
+
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int x = 0; x < SIZE; x++)
 		{
-			currentCell[i][x] = newCell[i][x];
+			if(currentState % 2 == 0) // if 2 or 4
+				currentCell[i][x] = newCell[i][x];
+			else if(currentState == 1)
+			{
+				if(newCell[i][x] == 1)
+					currentCell[i-1][x] = newCell[i][x];
+			}
+			else
+			{
+				if(newCell[i][x] == 1)
+					currentCell[i][x-1] = newCell[i][x];
+			}
+				
 		}
 	}
-			
+	if(currentState < 4)
+		currentState++;
+	else
+		currentState = 1;
 	clearNewArray();
 }
 

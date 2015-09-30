@@ -13,11 +13,13 @@ private:
 	int colSize;
 	int currentCell[SIZE][SIZE];
 	int newCell[SIZE][SIZE];
+	int totalChanges;
+	int currentState;
 	WINDOW * win;
 
 	void initArrays();
 	void clearNewArray();
-	int getState();
+	void clearCurrentArray();
 	void updateCycle();
 	void countNeighbors();
 	void initWindow(int y, int x);
