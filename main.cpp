@@ -5,7 +5,6 @@
 *********************************************************************/
 
 #include <iostream>
-#include <iomanip>
 #include "Oscillator.hpp"
 #include "Glider.hpp"
 #include <curses.h>
@@ -16,18 +15,39 @@ int main()
 {
 	char prefs, ch;
 	int x=0, y=0;
-	// getUserPrefs(prefs, x, y);
+	Oscillator* myOsc;
+	Glider* myGlider;
 
-	// Oscillator myOsc(x, y); // starts ncurses mode and draws box
-	Glider myGlider(x, y);
+	getUserPrefs(prefs, x, y);
+
+	if(prefs == 'o') 
+	{
+		myOsc = new Oscillator(x, y);
+		myOsc->initWindow(2, 0);		// starts ncurses mode and draws box
+	}
+		
+	if(prefs == 'g') 
+	{
+		myGlider = new Glider(x, y);
+		myGlider->initWindow(2, 0);	// starts ncurses mode and draws box
+	}
 	
 	do
 	{
-		myGlider.drawCells(); // draws the cell
+		if(prefs == 'o')
+			myOsc->drawCells();
+		if(prefs == 'g')
+			myGlider->drawCells(); // draws the cell
 	} while ((ch = getch()) != 'q'); // loop until the user enters 'q'
 	// for (int i = 0; i < 3; i++) // for testing
 		// myOsc.drawCells(); // draws the cell
 	// sleep(10);
+
+	delete myOsc; 
+	delete myGlider; 
+	myOsc = 0;
+	myGlider = 0;
+
 	return 0;
 }
 
@@ -49,23 +69,3 @@ void getUserPrefs(char &pref, int &x, int &y)
 	std::cout 	<< "Choose y" << std::endl;
 	std::cin >> y;
 }
-
-// void makeWindow()
-// {
-// 	initscr();					// Start curses mode
-// 	win = newwin(20, 40, y, x); // make a new window
-// 	timeout(500); 				// wait for user input then go to next getch() call
-// 	noecho(); 					// don't print user input
-// 	printw("Press 'q' to quit.");	// instructions at top of screen
-// 	refresh();					// put the printw on the screen
-
-// 	/* create a 40 x 20 "window" */
-// 	for (int i = 0; i < 20; i++)
-// 	{
-// 		for (int x = 0; x < 40; x++)
-// 		{
-// 			mvwaddch(win, i, x, '-');	// move and add a character to the coords
-// 		}
-// 	}
-// 	wrefresh(win);	// draw the window
-// }

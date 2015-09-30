@@ -7,7 +7,7 @@ Oscillator::Oscillator()
 	rowSize = colSize = SIZE;
 	startX = startY = 0;
 	initArrays();
-    initWindow(2, 0);
+    // initWindow(2, 0);
 }
 
 Oscillator::Oscillator(int y, int x)
@@ -17,7 +17,7 @@ Oscillator::Oscillator(int y, int x)
 	startY = y;
 	initArrays();
 	
-	initWindow(2, 0);
+	// initWindow(2, 0);
 }
 
 Oscillator::~Oscillator()
@@ -64,11 +64,6 @@ void Oscillator::clearNewArray()
 			newCell[i][x] = 0;
 		}
 	}
-}
-
-int Oscillator::getState()
-{
-
 }
 
 /*********************************************************************

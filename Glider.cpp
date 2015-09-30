@@ -7,7 +7,7 @@ Glider::Glider()
 	rowSize = colSize = SIZE;
 	startX = startY = 0;
 	initArrays();
-    initWindow(2, 0);
+    // initWindow(2, 0);
 }
 
 Glider::Glider(int y, int x)
@@ -20,7 +20,7 @@ Glider::Glider(int y, int x)
 	currentState = 1;
 	initArrays();
 	
-	initWindow(2, 0);
+	
 }
 
 Glider::~Glider()
@@ -54,8 +54,8 @@ void Glider::initArrays()
 
 			newCell[i][x] = 0;
 
-			std::cout << "i = " << i << ", x = " << x << std::endl;
-			std::cout << currentCell[i][x] << std::endl;
+			// std::cout << "i = " << i << ", x = " << x << std::endl;
+			// std::cout << currentCell[i][x] << std::endl;
 		}
 	}
 }
@@ -150,22 +150,29 @@ void Glider::countNeighbors()
 
 bool Glider::drawCells() 
 {
+	// initWindow(2, 0);
 	// initscr();
-	char ch;
+	char ch = '-';
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int x = 0; x < SIZE; x++)
-		{
-			if(currentCell[i][x] == 0)
-				ch = '-';
-			else
+			mvwaddch(win, (i + startX + xMove-1), (x + startY + yMove-1), ch); // clear last cell
+	}
+	wrefresh(win); // update the window
+	for (int i = 0; i < SIZE; i++)
+	{
+		for (int x = 0; x < SIZE; x++)
+		{	
+			if(currentCell[i][x] == 1)
 				ch = '+';
+			else
+				ch = '-';
 			if(i != SIZE-1 && x != SIZE-1)
 				mvwaddch(win, (i + startX + xMove), (x + startY + yMove), ch); // put character on window		
 			// std::cout << "xMove = " << xMove << ", yMove = " << yMove << std::endl;
-			// std::cout << currentCell[i][x] << std::endl;
 		}
 	}
+	// std::cout << "currentState=" << currentState << std::endl;
 	wrefresh(win); // update the window
 
 	countNeighbors(); // figure out next generation
@@ -178,31 +185,26 @@ bool Glider::drawCells()
 void Glider::updateCycle() 
 {
 	bool moveX = false;
-	bool moveY = true;
+	bool moveY = false;
 	clearCurrentArray(); // all zeroes
 
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int x = 0; x < SIZE; x++)
 		{
-			if(currentState % 2 == 0) // if 2 or 4
+			if(currentState % 2 == 0) // if 2 or 4, no movement
 				currentCell[i][x] = newCell[i][x];
 			else if(currentState == 1)
 			{
+				moveX = true;
 				if(newCell[i][x] == 1)
-				{
 					currentCell[i-1][x] = newCell[i][x];
-					moveX = true;
-				}
 			}
-			else
+			else // current state is
 			{
+				moveY = true;
 				if(newCell[i][x] == 1)
-				{
 					currentCell[i][x-1] = newCell[i][x];
-					moveY = true;
-				}
-					
 			}
 				
 		}
@@ -210,7 +212,7 @@ void Glider::updateCycle()
 
 	if(moveX)
 		xMove++;	
-	if(moveY)
+	else if(moveY)
 		yMove++;
 
 	if(currentState < 4)
@@ -225,8 +227,9 @@ void Glider::initWindow(int y, int x)
 {
 	initscr();					// Start curses mode
 	win = newwin(20, 40, y, x); // make a new window
-	timeout(500); 				// wait for user input then go to next getch() call
+	timeout(200); 				// wait for user input then go to next getch() call
 	noecho(); 					// don't print user input
+	curs_set(0);				// make cursor invisible if possible
 	printw("Press 'q' to quit.");	// instructions at top of screen
 	refresh();					// put the printw on the screen
 

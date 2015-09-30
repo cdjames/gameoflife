@@ -17,15 +17,14 @@ private:
 
 	void initArrays();
 	void clearNewArray();
-	int getState();
 	void updateCycle();
 	void countNeighbors();
-	void initWindow(int y, int x);
 
 public:
 	Oscillator();
 	Oscillator(int x, int y);
 	~Oscillator();
+	void initWindow(int y, int x);
 	bool drawCells();
 };
 

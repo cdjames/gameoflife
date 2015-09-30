@@ -23,12 +23,12 @@ private:
 	void clearCurrentArray();
 	void updateCycle();
 	void countNeighbors();
-	void initWindow(int y, int x);
-
+	
 public:
 	Glider();
 	Glider(int x, int y);
 	~Glider();
+	void initWindow(int y, int x);
 	bool drawCells();
 };
 
