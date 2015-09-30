@@ -6,7 +6,8 @@
 
 OPS = -lncurses
 
-CXX = Oscillator.cpp
+CXX = Cell.cpp
+CXX += Oscillator.cpp
 CXX += Glider.cpp
 CXX += main.cpp
 

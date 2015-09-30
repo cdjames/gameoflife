@@ -1,61 +1,38 @@
-#include "Oscillator.hpp"
-// #include "Cell.hpp"
+#include "Cell.hpp"
 #include <iostream>
 #include <curses.h>
 
-Oscillator::Oscillator()
+Cell::Cell()
 {
 	rowSize = colSize = SIZE;
 	startX = startY = 0;
-	initArrays();
+	// initArrays();
     // initWindow(2, 0);
 }
 
-Oscillator::Oscillator(int y, int x)
+Cell::Cell(int y, int x)
 {
 	rowSize = colSize = SIZE;
 	startX = x;
 	startY = y;
-	initArrays();
-	
-	// initWindow(2, 0);
+	xMove = 0;
+	yMove = 0;
+	currentState = 1;
+	// std::cout << 
+	// initArrays();
 }
 
-Oscillator::~Oscillator()
+Cell::~Cell()
 {
 	delwin(win);	// delete the window
-	endwin();		/* End curses mode		  */
-}
-
-/*********************************************************************
-** Description: 
-** Sets up arrays
-*********************************************************************/
-void Oscillator::initArrays() 
-{
-	// int size = currentCell.size();
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int x = 0; x < SIZE; x++)
-		{
-			if (i == SIZE/2)
-				currentCell[i][x] = 1;
-			else
-				currentCell[i][x] = 0;
-
-			newCell[i][x] = 0;
-
-			// std::cout << "i = " << i << ", x = " << x << std::endl;
-			// std::cout << currentCell[i][x] << std::endl;
-		}
-	}
+	endwin();		// End curses mode
 }
 
 /*********************************************************************
 ** Description: 
 ** Put all 0s into new cell array
 *********************************************************************/
-void Oscillator::clearNewArray() 
+void Cell::clearNewArray() 
 {
 	// int size = currentCell.size();
 	for (int i = 0; i < SIZE; i++)
@@ -66,6 +43,20 @@ void Oscillator::clearNewArray()
 		}
 	}
 }
+
+void Cell::clearCurrentArray() 
+{
+	// int size = currentCell.size();
+	for (int i = 0; i < SIZE; i++)
+	{
+		for (int x = 0; x < SIZE; x++)
+		{
+			currentCell[i][x] = 0;
+		}
+	}
+}
+
+void Cell::updateCycle(){}
 
 /*********************************************************************
 ** Description: 
@@ -77,7 +68,7 @@ void Oscillator::clearNewArray()
 to replace the empty cell. 
 4.	Births and deaths are instantaneous and occur at the changes of generation.
 *********************************************************************/
-void Oscillator::countNeighbors() 
+void Cell::countNeighbors() 
 {
 	for (int i = 0; i < SIZE; i++)
 	{
@@ -127,52 +118,13 @@ void Oscillator::countNeighbors()
 	updateCycle(); // copy new cells into 1st generation; clear new array
 }
 
-bool Oscillator::drawCells() 
-{
-	// initscr();
-	char ch;
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int x = 0; x < SIZE; x++)
-		{
-			if(currentCell[i][x] == 0)
-				ch = '-';
-			else
-				ch = '+';
-			mvwaddch(win, i+startX, x+startY, ch); // put character on window		
-			// std::cout << "i = " << i << ", x = " << x << std::endl;
-			// std::cout << currentCell[i][x] << std::endl;
-		}
-	}
-	wrefresh(win); // update the window
-
-	countNeighbors(); // figure out next generation
-
-}
-
-/*********************************************************************
-** Description: 
-** copy the new cell into the main cell and clear the new cell
-*********************************************************************/
-void Oscillator::updateCycle() 
-{
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int x = 0; x < SIZE; x++)
-		{
-			currentCell[i][x] = newCell[i][x];
-		}
-	}
-			
-	clearNewArray();
-}
-
-void Oscillator::initWindow(int y, int x)
+void Cell::initWindow(int y, int x)
 {
 	initscr();					// Start curses mode
 	win = newwin(20, 40, y, x); // make a new window
-	timeout(500); 				// wait for user input then go to next getch() call
+	timeout(200); 				// wait for user input then go to next getch() call
 	noecho(); 					// don't print user input
+	curs_set(0);				// make cursor invisible if possible
 	printw("Press 'q' to quit.");	// instructions at top of screen
 	refresh();					// put the printw on the screen
 

@@ -1,7 +1,9 @@
 #ifndef OSCILLATOR_HPP
 #define OSCILLATOR_HPP
 
+// #include "Cell.hpp"
 #include <curses.h>
+// class Oscillator: public Cell
 class Oscillator
 {
 private:
