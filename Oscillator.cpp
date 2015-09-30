@@ -5,17 +5,18 @@
 
 Oscillator::Oscillator()
 {
-	rowSize = colSize = SIZE;
+	// rowSize = colSize = SIZE = size;
 	startX = startY = 0;
 	initArrays();
     // initWindow(2, 0);
 }
 
-Oscillator::Oscillator(int y, int x)
+Oscillator::Oscillator(int y, int x, int size): Cell (y, x, size)
 {
-	rowSize = colSize = SIZE;
-	startX = x;
-	startY = y;
+	// rowSize = colSize = SIZE;
+	// startX = x;
+	// startY = y;
+	// std::cout << "SIZE=" << SIZE << std::endl;
 	initArrays();
 	
 	// initWindow(2, 0);
@@ -23,8 +24,8 @@ Oscillator::Oscillator(int y, int x)
 
 Oscillator::~Oscillator()
 {
-	delwin(win);	// delete the window
-	endwin();		/* End curses mode		  */
+	// delwin(win);	// delete the window
+	// endwin();		/* End curses mode		  */
 }
 
 /*********************************************************************
@@ -55,17 +56,17 @@ void Oscillator::initArrays()
 ** Description: 
 ** Put all 0s into new cell array
 *********************************************************************/
-void Oscillator::clearNewArray() 
-{
-	// int size = currentCell.size();
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int x = 0; x < SIZE; x++)
-		{
-			newCell[i][x] = 0;
-		}
-	}
-}
+// void Oscillator::clearNewArray() 
+// {
+// 	// int size = currentCell.size();
+// 	for (int i = 0; i < SIZE; i++)
+// 	{
+// 		for (int x = 0; x < SIZE; x++)
+// 		{
+// 			newCell[i][x] = 0;
+// 		}
+// 	}
+// }
 
 /*********************************************************************
 ** Description: 
@@ -77,55 +78,54 @@ void Oscillator::clearNewArray()
 to replace the empty cell. 
 4.	Births and deaths are instantaneous and occur at the changes of generation.
 *********************************************************************/
-void Oscillator::countNeighbors() 
-{
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int x = 0; x < SIZE; x++)
-		{
-			int count = 0;
+// void Oscillator::countNeighbors() 
+// {
+// 	for (int i = 0; i < SIZE; i++)
+// 	{
+// 		for (int x = 0; x < SIZE; x++)
+// 		{
+// 			int count = 0;
 
-			if(i < SIZE-1) { // count when i is 0 or 1
-				if( x < SIZE-1) // count when x is 0 or 1
-					count += currentCell[i+1][x+1];
+// 			if(i < SIZE-1) { // count when i is 0 or 1
+// 				if( x < SIZE-1) // count when x is 0 or 1
+// 					count += currentCell[i+1][x+1];
 
-				if (x > 0) // count when x is 1 or 2
-					count += currentCell[i+1][x-1];
+// 				if (x > 0) // count when x is 1 or 2
+// 					count += currentCell[i+1][x-1];
 				
-				count += currentCell[i+1][x]; // always count
-			}
+// 				count += currentCell[i+1][x]; // always count
+// 			}
 
-			if (i > 0) // count when i is 1 or 2
-			{
-				if( x < SIZE-1) // count when x is 0 or 1
-					count += currentCell[i-1][x+1];
-				if (x > 0) // count when x is 1 or 2
-					count += currentCell[i-1][x-1];
+// 			if (i > 0) // count when i is 1 or 2
+// 			{
+// 				if( x < SIZE-1) // count when x is 0 or 1
+// 					count += currentCell[i-1][x+1];
+// 				if (x > 0) // count when x is 1 or 2
+// 					count += currentCell[i-1][x-1];
 
-				count += currentCell[i-1][x]; // always count
-			}
+// 				count += currentCell[i-1][x]; // always count
+// 			}
 
-			// count when i is 0, 1, and 2
-			if( x < SIZE-1) // and x is 0 or 1
-				count += currentCell[i][x+1];
+// 			// count when i is 0, 1, and 2
+// 			if( x < SIZE-1) // and x is 0 or 1
+// 				count += currentCell[i][x+1];
 
-			if (x > 0) // and x is 1 or 2
-				count += currentCell[i][x-1];
+// 			if (x > 0) // and x is 1 or 2
+// 				count += currentCell[i][x-1];
 			
-			// std::cout << "i" << i << " x" << x << " count = " << count << std::endl;
+// 			// std::cout << "i" << i << " x" << x << " count = " << count << std::endl;
 
-			/* now copy into new cell */
-			if (count <= 1 || count > 3)
-				newCell[i][x] = 0; // kill cell
-			else if (count == 3)
-				newCell[i][x] = 1; // birth new cell
-			else
-				newCell[i][x] = currentCell[i][x];
-		}	
-	}
+// 			/* now copy into new cell */
+// 			if (count <= 1 || count > 3)
+// 				newCell[i][x] = 0; // kill cell
+// 			else if (count == 3)
+// 				newCell[i][x] = 1; // birth new cell
+// 			else
+// 				newCell[i][x] = currentCell[i][x];
+// 		}	
+// 	}
 
-	updateCycle(); // copy new cells into 1st generation; clear new array
-}
+// }
 
 bool Oscillator::drawCells() 
 {
@@ -147,6 +147,8 @@ bool Oscillator::drawCells()
 	wrefresh(win); // update the window
 
 	countNeighbors(); // figure out next generation
+
+	updateCycle(); // copy new cells into 1st generation; clear new array
 
 }
 

@@ -10,20 +10,36 @@ Cell::Cell()
     // initWindow(2, 0);
 }
 
-Cell::Cell(int y, int x)
+Cell::Cell(int y, int x, int size)
 {
-	rowSize = colSize = SIZE;
+	rowSize = colSize = SIZE = size;
+	currentCell = new int* [SIZE];
+	newCell = new int *[SIZE];
+	for( int i = 0 ; i < SIZE ; i++ ){
+		currentCell[i] = new int[SIZE];
+		newCell[i] = new int[SIZE];
+	}
 	startX = x;
 	startY = y;
 	xMove = 0;
 	yMove = 0;
 	currentState = 1;
-	// std::cout << 
+	std::cout << "SIZE=" << SIZE << std::endl;
 	// initArrays();
 }
 
 Cell::~Cell()
 {
+	for( int i = 0 ; i < SIZE ; i++ ){
+		delete [] currentCell[i];
+		delete [] newCell[i];
+		currentCell[i] = 0;
+		newCell[i] = 0;
+	}
+	delete [] currentCell;
+	delete [] newCell;
+	currentCell = 0;
+	newCell = 0;
 	delwin(win);	// delete the window
 	endwin();		// End curses mode
 }
@@ -56,7 +72,7 @@ void Cell::clearCurrentArray()
 	}
 }
 
-void Cell::updateCycle(){}
+// void Cell::updateCycle(){}
 
 /*********************************************************************
 ** Description: 
@@ -115,7 +131,7 @@ void Cell::countNeighbors()
 		}	
 	}
 
-	updateCycle(); // copy new cells into 1st generation; clear new array
+	// updateCycle(); // copy new cells into 1st generation; clear new array
 }
 
 void Cell::initWindow(int y, int x)

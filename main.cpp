@@ -16,19 +16,21 @@ int main()
 	char prefs, ch;
 	int x=0, y=0;
 	Oscillator* myOsc;
+	// myOsc = new Oscillator(x, y, 3);
 	Glider* myGlider;
+	// myGlider = new Glider(x, y, 4);
 
 	getUserPrefs(prefs, x, y);
 
 	if(prefs == 'o') 
 	{
-		myOsc = new Oscillator(x, y);
+		myOsc = new Oscillator(x, y, 3);
 		myOsc->initWindow(2, 0);		// starts ncurses mode and draws box
 	}
 		
 	if(prefs == 'g') 
 	{
-		myGlider = new Glider(x, y);
+		myGlider = new Glider(x, y, 4);
 		myGlider->initWindow(2, 0);	// starts ncurses mode and draws box
 	}
 	

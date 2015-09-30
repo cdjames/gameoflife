@@ -5,14 +5,16 @@
 class Cell
 {
 protected:
-	static const int SIZE = 4;
-	// int SIZE;
+	// static const int SIZE = 4;
+	int SIZE;
 	int startX;
 	int startY;
 	int rowSize;
 	int colSize;
-	int currentCell[SIZE][SIZE];
-	int newCell[SIZE][SIZE];
+	// int currentCell[SIZE][SIZE];
+	// int newCell[SIZE][SIZE];
+	int** currentCell;
+	int** newCell;
 	int xMove;
 	int yMove;
 	int currentState;
@@ -21,11 +23,11 @@ protected:
 	void clearNewArray();
 	void clearCurrentArray();
 	void countNeighbors();
-	void updateCycle();
+	// void updateCycle();
 	
 public:
 	Cell();
-	Cell(int x, int y);
+	Cell(int x, int y, int size);
 	~Cell();
 	void initWindow(int y, int x);
 };
