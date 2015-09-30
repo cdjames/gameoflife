@@ -15,7 +15,8 @@ Glider::Glider(int y, int x)
 	rowSize = colSize = SIZE;
 	startX = x;
 	startY = y;
-	totalChanges = 0;
+	xMove = 0;
+	yMove = 0;
 	currentState = 1;
 	initArrays();
 	
@@ -159,8 +160,9 @@ bool Glider::drawCells()
 				ch = '-';
 			else
 				ch = '+';
-			mvwaddch(win, i+startX, x+startY, ch); // put character on window		
-			// std::cout << "i = " << i << ", x = " << x << std::endl;
+			if(i != SIZE-1 && x != SIZE-1)
+				mvwaddch(win, (i + startX + xMove), (x + startY + yMove), ch); // put character on window		
+			// std::cout << "xMove = " << xMove << ", yMove = " << yMove << std::endl;
 			// std::cout << currentCell[i][x] << std::endl;
 		}
 	}
@@ -175,7 +177,9 @@ bool Glider::drawCells()
 *********************************************************************/
 void Glider::updateCycle() 
 {
-	clearCurrentArray();
+	bool moveX = false;
+	bool moveY = true;
+	clearCurrentArray(); // all zeroes
 
 	for (int i = 0; i < SIZE; i++)
 	{
@@ -186,21 +190,35 @@ void Glider::updateCycle()
 			else if(currentState == 1)
 			{
 				if(newCell[i][x] == 1)
+				{
 					currentCell[i-1][x] = newCell[i][x];
+					moveX = true;
+				}
 			}
 			else
 			{
 				if(newCell[i][x] == 1)
+				{
 					currentCell[i][x-1] = newCell[i][x];
+					moveY = true;
+				}
+					
 			}
 				
 		}
 	}
+
+	if(moveX)
+		xMove++;	
+	if(moveY)
+		yMove++;
+
 	if(currentState < 4)
 		currentState++;
 	else
 		currentState = 1;
-	clearNewArray();
+
+	clearNewArray(); // all zeroes
 }
 
 void Glider::initWindow(int y, int x)

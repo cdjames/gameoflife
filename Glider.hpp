@@ -13,7 +13,8 @@ private:
 	int colSize;
 	int currentCell[SIZE][SIZE];
 	int newCell[SIZE][SIZE];
-	int totalChanges;
+	int xMove;
+	int yMove;
 	int currentState;
 	WINDOW * win;
 
