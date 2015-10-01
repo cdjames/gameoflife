@@ -2,25 +2,11 @@
 #include <iostream>
 #include <curses.h>
 
-Glider::Glider()
-{
-	rowSize = colSize = SIZE;
-	startX = startY = 0;
-	initArrays();
-    // initWindow(2, 0);
-}
+Glider::Glider(): Cell() {}
 
 Glider::Glider(int y, int x, int size): Cell (y, x, size)
 {
-	// rowSize = colSize = SIZE;
-	// startX = x;
-	// startY = y;
-	// xMove = 0;
-	// yMove = 0;
-	// currentState = 1;
 	initArrays();
-	
-	
 }
 
 Glider::~Glider()
@@ -35,15 +21,14 @@ Glider::~Glider()
 *********************************************************************/
 void Glider::initArrays() 
 {
-	// int size = currentCell.size();
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int x = 0; x < SIZE; x++)
-		{
-			if (   (i == 0 && x == 1) // build the spaceship
-				|| (i == 1 && x == 2)
-				|| (i == 2 && x == 0)
-				|| (i == 2 && x == 1)
+		{		// build the spaceship
+			if (   (i == 0 && x == 1) // 0100
+				|| (i == 1 && x == 2) // 0010
+				|| (i == 2 && x == 0) // 1110
+				|| (i == 2 && x == 1) // 0000
 				|| (i == 2 && x == 2)
 				)
 			{
@@ -52,6 +37,7 @@ void Glider::initArrays()
 			else
 				currentCell[i][x] = 0;
 
+			// all newCells get 0
 			newCell[i][x] = 0;
 
 			// std::cout << "i = " << i << ", x = " << x << std::endl;
@@ -60,103 +46,14 @@ void Glider::initArrays()
 	}
 }
 
-/*********************************************************************
-** Description: 
-** Put all 0s into new cell array
-*********************************************************************/
-// void Glider::clearNewArray() 
-// {
-// 	// int size = currentCell.size();
-// 	for (int i = 0; i < SIZE; i++)
-// 	{
-// 		for (int x = 0; x < SIZE; x++)
-// 		{
-// 			newCell[i][x] = 0;
-// 		}
-// 	}
-// }
-
-// void Glider::clearCurrentArray() 
-// {
-// 	// int size = currentCell.size();
-// 	for (int i = 0; i < SIZE; i++)
-// 	{
-// 		for (int x = 0; x < SIZE; x++)
-// 		{
-// 			currentCell[i][x] = 0;
-// 		}
-// 	}
-// }
-
-/*********************************************************************
-** Description: 
-** This is the main algorithm. Loop through both dimensions of array
-** and check neighbors of each cell. Rules are: 
-1.	If an occupied cell has zero or one neighbor, it dies of loneliness. 
-2.	If an occupied cell has more than three neighbors, it dies of overcrowding. 
-3.	If an empty cell has exactly three occupied neighbor cells, there is a birth of a new cell
-to replace the empty cell. 
-4.	Births and deaths are instantaneous and occur at the changes of generation.
-*********************************************************************/
-// void Glider::countNeighbors() 
-// {
-// 	for (int i = 0; i < SIZE; i++)
-// 	{
-// 		for (int x = 0; x < SIZE; x++)
-// 		{
-// 			int count = 0;
-
-// 			if(i < SIZE-1) { // count when i is 0 or 1
-// 				if( x < SIZE-1) // count when x is 0 or 1
-// 					count += currentCell[i+1][x+1];
-
-// 				if (x > 0) // count when x is 1 or 2
-// 					count += currentCell[i+1][x-1];
-				
-// 				count += currentCell[i+1][x]; // always count
-// 			}
-
-// 			if (i > 0) // count when i is 1 or 2
-// 			{
-// 				if( x < SIZE-1) // count when x is 0 or 1
-// 					count += currentCell[i-1][x+1];
-// 				if (x > 0) // count when x is 1 or 2
-// 					count += currentCell[i-1][x-1];
-
-// 				count += currentCell[i-1][x]; // always count
-// 			}
-
-// 			// count when i is 0, 1, and 2
-// 			if( x < SIZE-1) // and x is 0 or 1
-// 				count += currentCell[i][x+1];
-
-// 			if (x > 0) // and x is 1 or 2
-// 				count += currentCell[i][x-1];
-			
-// 			// std::cout << "i" << i << " x" << x << " count = " << count << std::endl;
-
-// 			/* now copy into new cell */
-// 			if (count <= 1 || count > 3)
-// 				newCell[i][x] = 0; // kill cell
-// 			else if (count == 3)
-// 				newCell[i][x] = 1; // birth new cell
-// 			else
-// 				newCell[i][x] = currentCell[i][x];
-// 		}	
-// 	}
-
-// 	updateCycle(); // copy new cells into 1st generation; clear new array
-// }
-
 bool Glider::drawCells() 
 {
-	// initWindow(2, 0);
-	// initscr();
 	char ch = '-';
 	for (int i = 0; i < SIZE; i++)
 	{
+		// clear the previous cell area
 		for (int x = 0; x < SIZE; x++)
-			mvwaddch(win, (i + startX + xMove-1), (x + startY + yMove-1), ch); // clear last cell
+			mvwaddch(win, (i + startY + yMove-1), (x + startX + xMove-1), ch);
 	}
 	wrefresh(win); // update the window
 	for (int i = 0; i < SIZE; i++)
@@ -168,14 +65,14 @@ bool Glider::drawCells()
 			else
 				ch = '-';
 			if(i != SIZE-1 && x != SIZE-1)
-				mvwaddch(win, (i + startX + xMove), (x + startY + yMove), ch); // put character on window		
+				mvwaddch(win, (i + startY + yMove), (x + startX + xMove), ch); // put character on window		
 			// std::cout << "xMove = " << xMove << ", yMove = " << yMove << std::endl;
 		}
 	}
 	// std::cout << "currentState=" << currentState << std::endl;
 	wrefresh(win); // update the window
 
-	countNeighbors(); // figure out next generation
+	Cell::countNeighbors(); // figure out next generation
 
 	updateCycle(); // copy new cells into 1st generation; clear new array
 }
@@ -188,7 +85,7 @@ void Glider::updateCycle()
 {
 	bool moveX = false;
 	bool moveY = false;
-	clearCurrentArray(); // all zeroes
+	Cell::clearCurrentArray(); // all zeroes
 
 	for (int i = 0; i < SIZE; i++)
 	{
@@ -198,13 +95,13 @@ void Glider::updateCycle()
 				currentCell[i][x] = newCell[i][x];
 			else if(currentState == 1)
 			{
-				moveX = true;
+				moveY = true;
 				if(newCell[i][x] == 1)
 					currentCell[i-1][x] = newCell[i][x];
 			}
 			else // current state is
 			{
-				moveY = true;
+				moveX = true;
 				if(newCell[i][x] == 1)
 					currentCell[i][x-1] = newCell[i][x];
 			}
@@ -222,7 +119,7 @@ void Glider::updateCycle()
 	else
 		currentState = 1;
 
-	clearNewArray(); // all zeroes
+	Cell::clearNewArray(); // all zeroes
 }
 
 void Glider::initWindow(int y, int x)

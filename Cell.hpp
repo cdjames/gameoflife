@@ -5,14 +5,11 @@
 class Cell
 {
 protected:
-	// static const int SIZE = 4;
 	int SIZE;
 	int startX;
 	int startY;
 	int rowSize;
 	int colSize;
-	// int currentCell[SIZE][SIZE];
-	// int newCell[SIZE][SIZE];
 	int** currentCell;
 	int** newCell;
 	int xMove;
@@ -23,7 +20,6 @@ protected:
 	void clearNewArray();
 	void clearCurrentArray();
 	void countNeighbors();
-	// void updateCycle();
 	
 public:
 	Cell();

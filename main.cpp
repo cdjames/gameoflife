@@ -13,12 +13,12 @@ void getUserPrefs(char &pref, int &x, int &y);
 
 int main()
 {
-	char prefs, ch;
-	int x=0, y=0;
+	char prefs = 'o',
+		 ch;
+	int x = 0, 
+		y = 0;
 	Oscillator* myOsc;
-	// myOsc = new Oscillator(x, y, 3);
 	Glider* myGlider;
-	// myGlider = new Glider(x, y, 4);
 
 	getUserPrefs(prefs, x, y);
 
@@ -34,6 +34,7 @@ int main()
 		myGlider->initWindow(2, 0);	// starts ncurses mode and draws box
 	}
 	
+	/* draw the cells; quit only when 'q' is pressed */
 	do
 	{
 		if(prefs == 'o')
@@ -45,6 +46,7 @@ int main()
 		// myOsc.drawCells(); // draws the cell
 	// sleep(10);
 
+	/* clean up pointers before exit */
 	delete myOsc; 
 	delete myGlider; 
 	myOsc = 0;

@@ -4,13 +4,18 @@
 
 Cell::Cell()
 {
-	rowSize = colSize = SIZE;
-	startX = startY = 0;
-	// initArrays();
-    // initWindow(2, 0);
+	rowSize = colSize = SIZE = 3;
+	currentCell = new int* [SIZE];
+	newCell = new int *[SIZE];
+	for( int i = 0 ; i < SIZE ; i++ ){
+		currentCell[i] = new int[SIZE];
+		newCell[i] = new int[SIZE];
+	}
+	startX = startY = xMove = yMove = 0;
+	currentState = 1;
 }
 
-Cell::Cell(int y, int x, int size)
+Cell::Cell(int x, int y, int size) // need to change elsewhere
 {
 	rowSize = colSize = SIZE = size;
 	currentCell = new int* [SIZE];
@@ -21,11 +26,8 @@ Cell::Cell(int y, int x, int size)
 	}
 	startX = x;
 	startY = y;
-	xMove = 0;
-	yMove = 0;
+	xMove = yMove = 0;
 	currentState = 1;
-	std::cout << "SIZE=" << SIZE << std::endl;
-	// initArrays();
 }
 
 Cell::~Cell()

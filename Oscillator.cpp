@@ -3,23 +3,11 @@
 #include <iostream>
 #include <curses.h>
 
-Oscillator::Oscillator()
-{
-	// rowSize = colSize = SIZE = size;
-	startX = startY = 0;
-	initArrays();
-    // initWindow(2, 0);
-}
+Oscillator::Oscillator(): Cell() {}
 
 Oscillator::Oscillator(int y, int x, int size): Cell (y, x, size)
 {
-	// rowSize = colSize = SIZE;
-	// startX = x;
-	// startY = y;
-	// std::cout << "SIZE=" << SIZE << std::endl;
 	initArrays();
-	
-	// initWindow(2, 0);
 }
 
 Oscillator::~Oscillator()
@@ -52,81 +40,6 @@ void Oscillator::initArrays()
 	}
 }
 
-/*********************************************************************
-** Description: 
-** Put all 0s into new cell array
-*********************************************************************/
-// void Oscillator::clearNewArray() 
-// {
-// 	// int size = currentCell.size();
-// 	for (int i = 0; i < SIZE; i++)
-// 	{
-// 		for (int x = 0; x < SIZE; x++)
-// 		{
-// 			newCell[i][x] = 0;
-// 		}
-// 	}
-// }
-
-/*********************************************************************
-** Description: 
-** This is the main algorithm. Loop through both dimensions of array
-** and check neighbors of each cell. Rules are: 
-1.	If an occupied cell has zero or one neighbor, it dies of loneliness. 
-2.	If an occupied cell has more than three neighbors, it dies of overcrowding. 
-3.	If an empty cell has exactly three occupied neighbor cells, there is a birth of a new cell
-to replace the empty cell. 
-4.	Births and deaths are instantaneous and occur at the changes of generation.
-*********************************************************************/
-// void Oscillator::countNeighbors() 
-// {
-// 	for (int i = 0; i < SIZE; i++)
-// 	{
-// 		for (int x = 0; x < SIZE; x++)
-// 		{
-// 			int count = 0;
-
-// 			if(i < SIZE-1) { // count when i is 0 or 1
-// 				if( x < SIZE-1) // count when x is 0 or 1
-// 					count += currentCell[i+1][x+1];
-
-// 				if (x > 0) // count when x is 1 or 2
-// 					count += currentCell[i+1][x-1];
-				
-// 				count += currentCell[i+1][x]; // always count
-// 			}
-
-// 			if (i > 0) // count when i is 1 or 2
-// 			{
-// 				if( x < SIZE-1) // count when x is 0 or 1
-// 					count += currentCell[i-1][x+1];
-// 				if (x > 0) // count when x is 1 or 2
-// 					count += currentCell[i-1][x-1];
-
-// 				count += currentCell[i-1][x]; // always count
-// 			}
-
-// 			// count when i is 0, 1, and 2
-// 			if( x < SIZE-1) // and x is 0 or 1
-// 				count += currentCell[i][x+1];
-
-// 			if (x > 0) // and x is 1 or 2
-// 				count += currentCell[i][x-1];
-			
-// 			// std::cout << "i" << i << " x" << x << " count = " << count << std::endl;
-
-// 			/* now copy into new cell */
-// 			if (count <= 1 || count > 3)
-// 				newCell[i][x] = 0; // kill cell
-// 			else if (count == 3)
-// 				newCell[i][x] = 1; // birth new cell
-// 			else
-// 				newCell[i][x] = currentCell[i][x];
-// 		}	
-// 	}
-
-// }
-
 bool Oscillator::drawCells() 
 {
 	// initscr();
@@ -139,14 +52,14 @@ bool Oscillator::drawCells()
 				ch = '-';
 			else
 				ch = '+';
-			mvwaddch(win, i+startX, x+startY, ch); // put character on window		
+			mvwaddch(win, i+startY, x+startX, ch); // put character on window		
 			// std::cout << "i = " << i << ", x = " << x << std::endl;
 			// std::cout << currentCell[i][x] << std::endl;
 		}
 	}
 	wrefresh(win); // update the window
 
-	countNeighbors(); // figure out next generation
+	Cell::countNeighbors(); // figure out next generation
 
 	updateCycle(); // copy new cells into 1st generation; clear new array
 
@@ -166,7 +79,7 @@ void Oscillator::updateCycle()
 		}
 	}
 			
-	clearNewArray();
+	Cell::clearNewArray();
 }
 
 void Oscillator::initWindow(int y, int x)
