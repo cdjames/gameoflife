@@ -81,23 +81,3 @@ void Oscillator::updateCycle()
 			
 	Cell::clearNewArray();
 }
-
-void Oscillator::initWindow(int y, int x)
-{
-	initscr();					// Start curses mode
-	win = newwin(20, 40, y, x); // make a new window
-	timeout(500); 				// wait for user input then go to next getch() call
-	noecho(); 					// don't print user input
-	printw("Press 'q' to quit.");	// instructions at top of screen
-	refresh();					// put the printw on the screen
-
-	/* create a 40 x 20 "window" */
-	for (int i = 0; i < 20; i++)
-	{
-		for (int x = 0; x < 40; x++)
-		{
-			mvwaddch(win, i, x, '-');	// move and add a character to the coords
-		}
-	}
-	wrefresh(win);	// draw the window
-}

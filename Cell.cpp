@@ -132,15 +132,13 @@ void Cell::countNeighbors()
 				newCell[i][x] = currentCell[i][x];
 		}	
 	}
-
-	// updateCycle(); // copy new cells into 1st generation; clear new array
 }
 
 void Cell::initWindow(int y, int x)
 {
 	initscr();					// Start curses mode
 	win = newwin(20, 40, y, x); // make a new window
-	timeout(200); 				// wait for user input then go to next getch() call
+	timeout(300); 				// wait for user input then go to next getch() call
 	noecho(); 					// don't print user input
 	curs_set(0);				// make cursor invisible if possible
 	printw("Press 'q' to quit.");	// instructions at top of screen

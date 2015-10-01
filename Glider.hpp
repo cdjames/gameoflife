@@ -13,7 +13,6 @@ public:
 	Glider();
 	Glider(int x, int y, int size);
 	~Glider();
-	void initWindow(int y, int x);
 	bool drawCells();
 };
 

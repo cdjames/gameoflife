@@ -121,24 +121,3 @@ void Glider::updateCycle()
 
 	Cell::clearNewArray(); // all zeroes
 }
-
-void Glider::initWindow(int y, int x)
-{
-	initscr();					// Start curses mode
-	win = newwin(20, 40, y, x); // make a new window
-	timeout(200); 				// wait for user input then go to next getch() call
-	noecho(); 					// don't print user input
-	curs_set(0);				// make cursor invisible if possible
-	printw("Press 'q' to quit.");	// instructions at top of screen
-	refresh();					// put the printw on the screen
-
-	/* create a 40 x 20 "window" */
-	for (int i = 0; i < 20; i++)
-	{
-		for (int x = 0; x < 40; x++)
-		{
-			mvwaddch(win, i, x, '-');	// move and add a character to the coords
-		}
-	}
-	wrefresh(win);	// draw the window
-}

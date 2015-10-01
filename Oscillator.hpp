@@ -13,7 +13,6 @@ public:
 	Oscillator();
 	Oscillator(int x, int y, int size);
 	~Oscillator();
-	void initWindow(int y, int x);
 	bool drawCells();
 };
 
