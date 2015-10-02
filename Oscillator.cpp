@@ -10,11 +10,7 @@ Oscillator::Oscillator(int y, int x, int size): Cell (y, x, size)
 	initArrays();
 }
 
-Oscillator::~Oscillator()
-{
-	// delwin(win);	// delete the window
-	// endwin();		/* End curses mode		  */
-}
+Oscillator::~Oscillator() {}
 
 /*********************************************************************
 ** Description: 
@@ -22,7 +18,6 @@ Oscillator::~Oscillator()
 *********************************************************************/
 void Oscillator::initArrays() 
 {
-	// int size = currentCell.size();
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int x = 0; x < SIZE; x++)
@@ -33,16 +28,16 @@ void Oscillator::initArrays()
 				currentCell[i][x] = 0;
 
 			newCell[i][x] = 0;
-
-			// std::cout << "i = " << i << ", x = " << x << std::endl;
-			// std::cout << currentCell[i][x] << std::endl;
 		}
 	}
 }
 
+/*********************************************************************
+** Description: 
+** Iterate through array and put characters on screen
+*********************************************************************/
 bool Oscillator::drawCells() 
 {
-	// initscr();
 	char ch;
 	for (int i = 0; i < SIZE; i++)
 	{
@@ -53,16 +48,14 @@ bool Oscillator::drawCells()
 			else
 				ch = '+';
 			mvwaddch(win, i+startY, x+startX, ch); // put character on window		
-			// std::cout << "i = " << i << ", x = " << x << std::endl;
-			// std::cout << currentCell[i][x] << std::endl;
 		}
 	}
+
 	wrefresh(win); // update the window
 
 	Cell::countNeighbors(); // figure out next generation
 
 	updateCycle(); // copy new cells into 1st generation; clear new array
-
 }
 
 /*********************************************************************
@@ -79,6 +72,5 @@ void Oscillator::updateCycle()
 		}
 	}
 			
-	// Cell::clearNewArray();
 	Cell::clearArray(newCell);
 }

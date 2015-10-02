@@ -1,7 +1,7 @@
 /*********************************************************************
 ** Author: Collin James
-** Date: 
-** Description: 
+** Date: 10/1/15
+** Description: Main routines for Conway's game simulator
 *********************************************************************/
 
 #include <iostream>
@@ -18,9 +18,11 @@ int main()
 		 ch; // for while loop
 	int x = 0, 
 		y = 0;
-	Oscillator* myOsc;
-	Glider* myGlider;
-	Gun* myGun;
+	/* set pointers to null and use if statements when deleting to avoid
+	 * segmentation fault on flip */
+	Oscillator* myOsc = NULL;
+	Glider* myGlider = NULL;
+	Gun* myGun = NULL;
 
 	getUserPrefs(prefs, x, y);
 
@@ -55,13 +57,23 @@ int main()
 		}
 	} while ((ch = getch()) != 'q'); // loop until the user enters 'q'
 
-	/* clean up pointers before exit */
-	delete myOsc; 
-	delete myGlider; 
-	delete myGun; 
-	myOsc = 0;
-	myGlider = 0;
-	myGun = 0;
+	/* clean up pointers before exit. Only do this if the pointer was
+	 * actually used */
+	if(myOsc != NULL)
+	{
+		delete myOsc; 	
+		myOsc = 0;
+	}
+	if(myGlider != NULL)
+	{
+		delete myGlider; 	
+		myGlider = 0;
+	}
+	if(myGun != NULL)
+	{
+		delete myGun; 	
+		myGun = 0;
+	}
 
 	return 0;
 }

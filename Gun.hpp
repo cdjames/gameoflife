@@ -1,8 +1,15 @@
+/*********************************************************************
+** Author: Collin James
+** Date: 10/1/15
+** Description: A class from which uses the Cell base class to build 
+** Conway cells. Adds extra functions to base class.
+*********************************************************************/
+
 #ifndef GUN_HPP
 #define GUN_HPP
 
 #include "Cell.hpp"
-#include <curses.h>
+
 class Gun: public Cell
 {
 private:

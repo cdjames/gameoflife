@@ -9,11 +9,7 @@ Glider::Glider(int y, int x, int size): Cell (y, x, size)
 	initArrays();
 }
 
-Glider::~Glider()
-{
-	// delwin(win);	// delete the window
-	// endwin();		// End curses mode
-}
+Glider::~Glider() {}
 
 /*********************************************************************
 ** Description: 
@@ -39,13 +35,14 @@ void Glider::initArrays()
 
 			// all newCells get 0
 			newCell[i][x] = 0;
-
-			// std::cout << "i = " << i << ", x = " << x << std::endl;
-			// std::cout << currentCell[i][x] << std::endl;
 		}
 	}
 }
 
+/*********************************************************************
+** Description: 
+** Iterate through array and put characters on screen
+*********************************************************************/
 bool Glider::drawCells() 
 {
 	char ch = '-';
@@ -55,7 +52,7 @@ bool Glider::drawCells()
 		for (int x = 0; x < SIZE; x++)
 			mvwaddch(win, (i + startY + yMove-1), (x + startX + xMove-1), ch);
 	}
-	wrefresh(win); // update the window
+	wrefresh(win); // update the window to clear
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int x = 0; x < SIZE; x++)
@@ -66,10 +63,9 @@ bool Glider::drawCells()
 				ch = '-';
 			if(i != SIZE-1 && x != SIZE-1)
 				mvwaddch(win, (i + startY + yMove), (x + startX + xMove), ch); // put character on window		
-			// std::cout << "xMove = " << xMove << ", yMove = " << yMove << std::endl;
 		}
 	}
-	// std::cout << "currentState=" << currentState << std::endl;
+
 	wrefresh(win); // update the window
 
 	Cell::countNeighbors(); // figure out next generation
@@ -104,16 +100,18 @@ void Glider::updateCycle()
 				moveX = true;
 				if(newCell[i][x] == 1)
 					currentCell[i][x-1] = newCell[i][x];
-			}
-				
+			}		
 		}
 	}
 
+	/* move the object to the right */
 	if(moveX)
-		xMove++;	
+		xMove++;
+	/* move the object down */	
 	else if(moveY)
 		yMove++;
 
+	/* determine next state iteration (between 1 and 4) */
 	if(currentState < 4)
 		currentState++;
 	else

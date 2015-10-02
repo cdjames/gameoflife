@@ -1,3 +1,9 @@
+/*********************************************************************
+** Author: Collin James
+** Date: 10/1/15
+** Description: A base class from which to build Conway cells
+*********************************************************************/
+
 #ifndef CELL_HPP
 #define CELL_HPP
 
@@ -18,8 +24,6 @@ protected:
 	WINDOW * win;
 
 	void clearArray(int** array);
-	void clearNewArray();
-	void clearCurrentArray();
 	void countNeighbors();
 	
 public:

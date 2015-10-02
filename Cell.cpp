@@ -64,38 +64,6 @@ void Cell::clearArray(int** array)
 
 /*********************************************************************
 ** Description: 
-** Put all 0s into new cell array
-*********************************************************************/
-void Cell::clearNewArray() 
-{
-	// int size = currentCell.size();
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int x = 0; x < SIZE; x++)
-		{
-			newCell[i][x] = 0;
-		}
-	}
-}
-
-/*********************************************************************
-** Description: 
-** Put all 0s into new cell array
-*********************************************************************/
-void Cell::clearCurrentArray() 
-{
-	// int size = currentCell.size();
-	for (int i = 0; i < SIZE; i++)
-	{
-		for (int x = 0; x < SIZE; x++)
-		{
-			currentCell[i][x] = 0;
-		}
-	}
-}
-
-/*********************************************************************
-** Description: 
 ** This is the main algorithm. Loop through both dimensions of array
 ** and check neighbors of each cell. Rules are: 
 1.	If an occupied cell has zero or one neighbor, it dies of loneliness. 
