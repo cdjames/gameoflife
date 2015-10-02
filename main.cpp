@@ -7,6 +7,7 @@
 #include <iostream>
 #include "Oscillator.hpp"
 #include "Glider.hpp"
+#include "Gun.hpp"
 #include <curses.h>
 // #include <stdlib.h>
 void getUserPrefs(char &pref, int &x, int &y);
@@ -14,43 +15,53 @@ void getUserPrefs(char &pref, int &x, int &y);
 int main()
 {
 	char prefs = 'o',
-		 ch;
+		 ch; // for while loop
 	int x = 0, 
 		y = 0;
 	Oscillator* myOsc;
 	Glider* myGlider;
+	Gun* myGun;
 
 	getUserPrefs(prefs, x, y);
 
-	if(prefs == 'o') 
+	/* decide which cell to instantiate */
+	switch (prefs)
 	{
-		myOsc = new Oscillator(x, y, 3);
-		myOsc->initWindow(2, 0);		// starts ncurses mode and draws box
-	}
-		
-	if(prefs == 'g') 
-	{
-		myGlider = new Glider(x, y, 4);
-		myGlider->initWindow(2, 0);	// starts ncurses mode and draws box
+		case 'g':
+			myGlider = new Glider(x, y, 4);
+			myGlider->initWindow(2, 0);	// starts ncurses mode and draws box
+			break;
+		case 'c':
+			myGun = new Gun(x, y, 38);
+			myGun->initWindow(2, 0);	// starts ncurses mode and draws box
+			break;
+		default: // 'o' or anything else
+			myOsc = new Oscillator(x, y, 3);
+			myOsc->initWindow(2, 0);		// starts ncurses mode and draws box
 	}
 	
 	/* draw the cells; quit only when 'q' is pressed */
 	do
 	{
-		if(prefs == 'o')
-			myOsc->drawCells();
-		if(prefs == 'g')
-			myGlider->drawCells(); // draws the cell
+		switch (prefs){
+			case 'g':
+				myGlider->drawCells();
+				break;
+			case 'c':
+				myGun->drawCells();	
+				break;
+			default: // 'o' or anything else
+				myOsc->drawCells();
+		}
 	} while ((ch = getch()) != 'q'); // loop until the user enters 'q'
-	// for (int i = 0; i < 3; i++) // for testing
-		// myOsc.drawCells(); // draws the cell
-	// sleep(10);
 
 	/* clean up pointers before exit */
 	delete myOsc; 
 	delete myGlider; 
+	delete myGun; 
 	myOsc = 0;
 	myGlider = 0;
+	myGun = 0;
 
 	return 0;
 }
@@ -61,8 +72,9 @@ int main()
 *********************************************************************/
 void getUserPrefs(char &pref, int &x, int &y)
 {
-	std::cout 	<< "What kind of cell to start with? 'o' for Oscillator, 'g' for Glider, 'c' for Gun"
+	std::cout 	<< "What kind of cell to start with?\n'o' for Oscillator, 'g' for Glider, 'c' for Gun"
 				<< std::endl;
+	/* accept input only if o, g, or c */
 	do
 		std::cin >> pref;
 	while (pref != 'o' && pref != 'g' && pref != 'c');

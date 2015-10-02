@@ -85,7 +85,7 @@ void Glider::updateCycle()
 {
 	bool moveX = false;
 	bool moveY = false;
-	Cell::clearCurrentArray(); // all zeroes
+	Cell::clearArray(currentCell); // all zeroes
 
 	for (int i = 0; i < SIZE; i++)
 	{
@@ -119,5 +119,5 @@ void Glider::updateCycle()
 	else
 		currentState = 1;
 
-	Cell::clearNewArray(); // all zeroes
+	Cell::clearArray(newCell);; // all zeroes
 }

@@ -17,6 +17,7 @@ protected:
 	int currentState;
 	WINDOW * win;
 
+	void clearArray(int** array);
 	void clearNewArray();
 	void clearCurrentArray();
 	void countNeighbors();

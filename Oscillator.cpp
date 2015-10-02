@@ -79,5 +79,6 @@ void Oscillator::updateCycle()
 		}
 	}
 			
-	Cell::clearNewArray();
+	// Cell::clearNewArray();
+	Cell::clearArray(newCell);
 }

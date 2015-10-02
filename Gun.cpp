@@ -25,11 +25,42 @@ void Gun::initArrays()
 	{
 		for (int x = 0; x < SIZE; x++)
 		{		// build the spaceship
-			if (   (i == 0 && x == 1) // 0100
-				|| (i == 1 && x == 2) // 0010
-				|| (i == 2 && x == 0) // 1110
-				|| (i == 2 && x == 1) // 0000
-				|| (i == 2 && x == 2)
+			if (   (x == 1 && i == 5) // left square
+				|| (x == 1 && i == 6) // 
+				|| (x == 2 && i == 5) // 
+				|| (x == 2 && i == 6) //
+				|| (x == 35 && i == 3) // right square
+				|| (x == 35 && i == 4) // 
+				|| (x == 36 && i == 3) // 
+				|| (x == 36 && i == 4) //
+				|| (x == 11 && i == 5) // left ship
+				|| (x == 11 && i == 6) // 
+				|| (x == 11 && i == 7) // 
+				|| (x == 12 && i == 4) // 
+				|| (x == 12 && i == 8) // 
+				|| (x == 13 && i == 3) // 
+				|| (x == 13 && i == 9) // 
+				|| (x == 14 && i == 3) // 
+				|| (x == 14 && i == 9) // 
+				|| (x == 15 && i == 6) // 
+				|| (x == 16 && i == 4) // 
+				|| (x == 16 && i == 8) // 
+				|| (x == 17 && i == 5) // 
+				|| (x == 17 && i == 6) // 
+				|| (x == 17 && i == 7) // 
+				|| (x == 18 && i == 6) // 
+				|| (x == 21 && i == 3) // right ship
+				|| (x == 21 && i == 4) // 
+				|| (x == 21 && i == 5) // 
+				|| (x == 22 && i == 3) // 
+				|| (x == 22 && i == 4) // 
+				|| (x == 22 && i == 5) // 
+				|| (x == 23 && i == 2) // 
+				|| (x == 23 && i == 6) // 
+				|| (x == 25 && i == 1) // 
+				|| (x == 25 && i == 2) // 
+				|| (x == 25 && i == 6) // 
+				|| (x == 25 && i == 7) // 
 				)
 			{
 				currentCell[i][x] = 1;
@@ -85,39 +116,20 @@ void Gun::updateCycle()
 {
 	bool moveX = false;
 	bool moveY = false;
-	Cell::clearCurrentArray(); // all zeroes
+	// Cell::clearCurrentArray(); // all zeroes
+	Cell::clearArray(currentCell);
 
 	for (int i = 0; i < SIZE; i++)
 	{
 		for (int x = 0; x < SIZE; x++)
-		{
-			if(currentState % 2 == 0) // if 2 or 4, no movement
-				currentCell[i][x] = newCell[i][x];
-			else if(currentState == 1)
-			{
-				moveY = true;
-				if(newCell[i][x] == 1)
-					currentCell[i-1][x] = newCell[i][x];
-			}
-			else // current state is
-			{
-				moveX = true;
-				if(newCell[i][x] == 1)
-					currentCell[i][x-1] = newCell[i][x];
-			}
-				
-		}
+			currentCell[i][x] = newCell[i][x];				
 	}
-
-	if(moveX)
-		xMove++;	
-	else if(moveY)
-		yMove++;
 
 	if(currentState < 4)
 		currentState++;
 	else
 		currentState = 1;
 
-	Cell::clearNewArray(); // all zeroes
+	// Cell::clearNewArray(); // all zeroes
+	Cell::clearArray(newCell);
 }

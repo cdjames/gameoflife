@@ -9,6 +9,7 @@ OPS = -lncurses
 CXX = Cell.cpp
 CXX += Oscillator.cpp
 CXX += Glider.cpp
+CXX += Gun.cpp
 CXX += main.cpp
 
 PROG1 = main
