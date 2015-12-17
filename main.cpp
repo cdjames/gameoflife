@@ -30,7 +30,7 @@ int main()
 	switch (prefs)
 	{
 		case 'g':
-			myGlider = new Glider(x, y, 4);
+			myGlider = new Glider(x, y, 4); // 4 is the size of the array in the class
 			myGlider->initWindow(2, 0);	// starts ncurses mode and draws box
 			break;
 		case 'c':
@@ -91,7 +91,9 @@ void getUserPrefs(char &pref, int &x, int &y)
 		std::cin >> pref;
 	while (pref != 'o' && pref != 'g' && pref != 'c');
 
-	std::cout	<< "Choose x/y coordinates for cell. \nViewable X range is between 0 and 37. Y is between 0 and 17.\n"
+	std::cout	<< "Choose x/y coordinates for cell."
+				<<	"\nX range is between 0 and 39. Y range is between 0 and 19."
+				<<	"\n"
 				<< "Choose x" << std::endl;
 	std::cin >> x;
 	std::cout 	<< "Choose y" << std::endl;

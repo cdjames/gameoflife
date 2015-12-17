@@ -1,4 +1,5 @@
-# to execute the makefile on unix-y systems, type 'make'.
+
+# on unix-y systems, type 'make'.
 # if that doesn't work, 'make -f makefile' might be useful.
 
 # replace 'your_file' below with your actual source file names.
